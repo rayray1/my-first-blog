@@ -3,7 +3,6 @@ from django.utils import timezone
 
 # Create your models here.
 
-
 class Post(models.Model): # an object - defines the model
 	author = models.ForeignKey('auth.User') # link to another model
 	title = models.CharField(max_length=200)
@@ -15,7 +14,6 @@ class Post(models.Model): # an object - defines the model
 	def publish(self):
 		self.published_date = timezone.now()
 		self.save()
-
 
 
 	def __str__(self):
