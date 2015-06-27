@@ -7,16 +7,17 @@
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
-	<!-- static css -->
-	<link rel="stylesheet" href="{% static "css/blog.css" %}">
-
 	<!-- fonts -->
 	<link href="http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+	<!-- static css -->
+	<link rel="stylesheet" href="{% static "css/blog.css" %}">
 </head>
 
 <body>
 	<div class="page-header">
 		<a href="{% url "blog.views.post_new" %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+		<a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
 		<h1><a href="/">Django Tut Blog!</a></h1>
 	</div><!-- end page-header -->
 
