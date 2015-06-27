@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Added
+LOGIN_REDIRECT_URL = '/'
+
 
 # Application definition
 

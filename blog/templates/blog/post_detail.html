@@ -1,19 +1,48 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
+
 	<div class="post">
 		<div class="date">
 		{% if post.published_date %}
 			{{ post.published_date }}
 		{% else %}
-			<a class="btn btn-default" href="{% url "blog.views.post_publish" pk=post.pk %}">Publish</a>
+			<a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
 		{% endif %}
 
-		<a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-		<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+		{% if user.is_authenticated %}
+			<a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+			<a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+		{% else %}
+			<a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+		{% endif %}
 		</div><!-- end date -->
 
 		<h1>{{ post.title }}</h1>
 		<p>{{ post.text|linebreaks }}</p>
 	</div><!-- end post -->
+	
+	<!-- comments -->
+	<hr>
+	<a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+
+	{% for comment in post.comments.all %}
+		{% if  user.is_authenticated or comment.approved %}
+			<div class="comment">
+				<div class="date">
+					{{ comment.created_date }}
+					{% if not comment.approved %}
+						<a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+						<a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+					{% endif %}
+				</div><!-- end date -->
+			<strong>{{ comment.author }}</strong>
+			<p>{{ comment.text|linebreaks }}</p>
+		</div><!-- end comment -->
+		{% endif %}
+
+	{% empty %}
+		<p>No comments here yet</p>
+	{% endfor %}
+
 {% endblock %}
